@@ -1,5 +1,7 @@
 import axios from 'axios'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import { Navigate, useNavigate } from 'react-router-dom'
+import { useUserStore } from '../store/user'
 // import { Navigate } from 'react-router-dom'
 
 export default function SignUp() {
@@ -15,14 +17,36 @@ export default function SignUp() {
 	} = useForm <formType>({
 		mode: 'onBlur',
 	})
-	const onSubmit: SubmitHandler<formType> = (data: object) => {
-		axios
-			.post('https://65a02bdf7310aa1f8144b77c.mockapi.io/users', {data})
-			.catch(console.warn)
-			// Navigate('/account')
+	const { setUser } = useUserStore()
+	const { emailUpdate } = useUserStore()
+	const { passwordUpdate } = useUserStore()
+	const { user } = useUserStore()
+	const { email } = useUserStore()
+	const { password } = useUserStore()
+
+	const navigate = useNavigate()
+
+	const onSubmit: SubmitHandler<formType> = (data: formType) => {
+		// Отправка пользователя на сервер
+			axios
+				.post('https://65a02bdf7310aa1f8144b77c.mockapi.io/users', {
+					email: data.email,
+					password: data.password
+				})
+				.then(query => console.log(query.data))
+				.catch(console.warn);
+
+		// Обновление состояния пользователя в store
+			setUser(true)
+			emailUpdate(data.email)
+			passwordUpdate(data.password)
+
+		// Навигация на страницу аккаунта
+			navigate('/account')
 	}
 	return (
 			<form onSubmit={handleSubmit(onSubmit)} className='flex flex-col justify-center'>
+				<h1 className='text-white'>Добро пожаловать!</h1>
 				<label className='flex flex-col'>
 					<p className='text-white'>Email</p>
 					<input
@@ -35,7 +59,7 @@ export default function SignUp() {
 					{/* {errors?.email && <p>{errors?.email?.message || 'Error'}</p>} */}
 				</label>
 				<label className='flex flex-col'>
-					<p className='text-white'>Password</p>
+					<p className='text-white'>Пароль</p>
 					<input
 						type='password'
 						className='bg-[#323232] text-white rounded-[5px]'

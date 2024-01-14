@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { create } from 'zustand'
 
 type userType = {
@@ -10,20 +11,32 @@ type actionType = {
 	passwordUpdate: (password: userType['password']) => void
 	setUser: (user: userType['user']) => void
 }
-const useUserStore = create <userType & actionType> (set => ({
+export const useUserStore = create <userType & actionType> (set => ({
 	user: false,
 	email: '',
 	password: '',
-	emailUpdate: 
-		email => set(
-			() => ({ email: email })
-		),
+	emailUpdate: email =>
+	 {set({ email })},
+	 	
 	passwordUpdate: 
 		password => set(
 			() => ({ password: password })
 		),
 	setUser: 
 		user => set(
-			() => ({ user: !user })
+			// () => ({ user: !user })
+			() => ({ user: user })
 		),
 }))
+// data = [
+// 	{
+// 		'data': {
+// 			'email': '',
+// 			'password': ''
+// 		}
+// 	},
+// 	{}
+// ]
+// axios
+// 	.get('https://65a02bdf7310aa1f8144b77c.mockapi.io/users')
+// 	.then(el => setData(el.data))

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 export default function StartPage() {
 	return (
-		<div className='flex flex-col justify-center items-center text-white m-[50px]'>
+		<div className='flex flex-col justify-center items-center text-white gap-[15px]'>
 			<h1>START PAGE</h1>
 			<p>
 				Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias facilis
