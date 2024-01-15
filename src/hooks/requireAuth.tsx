@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useUserStore } from '../store/user'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import { ReactNode } from 'react'
 
 export default function RequireAuth({ children} : {children: ReactNode}) {

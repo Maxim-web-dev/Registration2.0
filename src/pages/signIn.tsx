@@ -16,7 +16,8 @@ export default function SignIn() {
 	}
 	const { 
 		register, 
-		handleSubmit
+		handleSubmit,
+		formState: {errors},
 	} = useForm<formType>({
 		mode: 'onBlur',
 	})
@@ -73,6 +74,7 @@ export default function SignIn() {
 							required: 'Поле обязательно для заполнения',
 						})}
 					/>
+					{errors?.email && <p className='text-[#ff2525]'>{errors?.email?.message || 'Error'}</p>}
 				</label>
 				<label className='flex flex-col'>
 					<p className='text-white'>Пароль</p>
@@ -87,6 +89,7 @@ export default function SignIn() {
 							},
 						})}
 					/>
+					{errors?.password && <p className='text-[#ff2525]'>{errors?.password?.message || 'Error'}</p>}
 				</label>
 				<button type='submit' className='text-white'>
 					Войти
