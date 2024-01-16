@@ -1,21 +1,11 @@
 import axios from 'axios'
-import { useForm, SubmitHandler } from 'react-hook-form'
-import { Link, useNavigate } from 'react-router-dom'
+import { SubmitHandler } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import { useUserStore } from '../store/user'
+import Form from '../components/form'
+import { formType } from '../types/types'
 
 export default function SignUp() {
-	type formType = {
-		email: string
-		password: string
-	}
-
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm<formType>({
-		mode: 'onBlur',
-	})
 	const { setUser } = useUserStore()
 	const { emailUpdate } = useUserStore()
 	const { passwordUpdate } = useUserStore()
@@ -29,7 +19,7 @@ export default function SignUp() {
 				email: data.email,
 				password: data.password,
 			})
-			.then(query => console.log(query.data))
+			.then(res => console.log(res.data))
 			.catch(console.warn)
 
 		// Обновление состояния пользователя в store
@@ -40,42 +30,5 @@ export default function SignUp() {
 		// Навигация на страницу аккаунта
 		navigate('/account')
 	}
-	return (
-		<form
-			onSubmit={handleSubmit(onSubmit)}
-			className='flex flex-col justify-center'
-		>
-			<h1 className='text-white'>Добро пожаловать!</h1>
-			<label className='flex flex-col'>
-				<p className='text-white'>Email</p>
-				<input
-					type='email'
-					className='bg-[#323232] text-white rounded-[5px]'
-					{...register('email', {
-						required: 'Поле обязательно для заполнения',
-					})}
-				/>
-					{errors?.email && <p className='text-[#ff2525]'>{errors?.email?.message || 'Error'}</p>}
-			</label>
-			<label className='flex flex-col'>
-				<p className='text-white'>Пароль</p>
-				<input
-					type='password'
-					className='bg-[#323232] text-white rounded-[5px]'
-					{...register('password', {
-						required: 'Поле обязательно для заполнения',
-						minLength: {
-							value: 5,
-							message: 'Пароль должен состоять минимум из 5 символов',
-						},
-					})}
-				/>
-					{errors?.password && <p className='text-[#ff2525]'>{errors?.password?.message || 'Error'}</p>}
-			</label>
-			<button type='submit' className='text-white'>
-				Зарегистрироваться
-			</button>
-			<Link to='/signin'>Уже есть аккаунт?</Link>
-		</form>
-	)
+	return <Form onSubmit={onSubmit} type='signup' />
 }

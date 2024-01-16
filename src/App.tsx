@@ -12,12 +12,8 @@ import Layout from './layout/layout'
 import StartPage from './pages/startPage'
 import RequireAuth from './hooks/requireAuth'
 import SignIn from './pages/signIn'
-import { useUserStore } from './store/user'
 
-function App() {
-  const {user} = useUserStore()
-  console.log(user);
-  
+export default function App() {
 	const router = createBrowserRouter(
 		createRoutesFromElements(
 			<Route path='/' element={<Layout />} errorElement={<Error />}>
@@ -33,11 +29,5 @@ function App() {
 			</Route>
 		)
 	)
-	return (
-		<div>
-			<RouterProvider router={router} />
-		</div>
-	)
+	return <RouterProvider router={router} />
 }
-
-export default App

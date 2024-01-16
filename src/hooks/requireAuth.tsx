@@ -1,13 +1,9 @@
-import axios from 'axios'
 import { useUserStore } from '../store/user'
 import { Navigate } from 'react-router-dom'
 import { ReactNode } from 'react'
 
 export default function RequireAuth({ children} : {children: ReactNode}) {
 	
-	axios
-		.get('https://65a02bdf7310aa1f8144b77c.mockapi.io/users')
-		
 	const { user } = useUserStore()
 
 	// const navigate = useNavigate()

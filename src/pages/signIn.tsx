@@ -1,28 +1,15 @@
 import axios from 'axios'
 import { useState } from 'react'
-import { SubmitHandler, useForm } from 'react-hook-form'
-import { Link, useNavigate } from 'react-router-dom'
+import { SubmitHandler } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 
 import { useUserStore } from '../store/user'
+import { formType } from '../types/types'
+import Form from '../components/form'
 
 export default function SignIn() {
-	type formType = {
-		email: string
-		password: string
-	}
-	type userType = {
-		email: string
-		password: string
-	}
-	const { 
-		register, 
-		handleSubmit,
-		formState: {errors},
-	} = useForm<formType>({
-		mode: 'onBlur',
-	})
 	const navigate = useNavigate()
-	const [users, setUsers] = useState<userType[]>([])
+	const [users, setUsers] = useState<formType[]>([])
 
 	const { setUser } = useUserStore()
 
@@ -37,11 +24,11 @@ export default function SignIn() {
 					const email = data.email
 					const password = data.password
 			
-					const isEmailExist: userType | undefined = users.find(
+					const isEmailExist: formType | undefined = users.find(
 						// Возвращает найденный объект
 							item => item.email == email
 					)
-					const isPasswordExist: userType | undefined = users.find(
+					const isPasswordExist: formType | undefined = users.find(
 						// Возвращает найденный объект
 							item => item.password == password
 					)
@@ -58,44 +45,5 @@ export default function SignIn() {
 		}
 		handleSubmit()
 	}
-	return (
-		<div>
-			<form
-				onSubmit={handleSubmit(onSubmit)}
-				className='flex flex-col justify-center items-center'
-			>
-				<h1 className='text-white'>С возвращением!</h1>
-				<label className='flex flex-col'>
-					<p className='text-white'>Email</p>
-					<input
-						type='email'
-						className='bg-[#323232] text-white rounded-[5px]'
-						{...register('email', {
-							required: 'Поле обязательно для заполнения',
-						})}
-					/>
-					{errors?.email && <p className='text-[#ff2525]'>{errors?.email?.message || 'Error'}</p>}
-				</label>
-				<label className='flex flex-col'>
-					<p className='text-white'>Пароль</p>
-					<input
-						type='password'
-						className='bg-[#323232] text-white rounded-[5px]'
-						{...register('password', {
-							required: 'Поле обязательно для заполнения',
-							minLength: {
-								value: 5,
-								message: 'Пароль должен состоять минимум из 5 символов',
-							},
-						})}
-					/>
-					{errors?.password && <p className='text-[#ff2525]'>{errors?.password?.message || 'Error'}</p>}
-				</label>
-				<button type='submit' className='text-white'>
-					Войти
-				</button>
-				<Link to='/signup'>У вас нет аккаунта?</Link>
-			</form>
-		</div>
-	)
+	return <Form onSubmit={onSubmit} type='signin'/>
 }
