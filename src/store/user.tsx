@@ -1,17 +1,7 @@
-// import axios from 'axios'
 import { create } from 'zustand'
+import { userType } from '../types/types'
 
-type userType = {
-	user: boolean
-	email: string
-	password: string
-}
-type actionType = {
-	emailUpdate: (email: userType['email']) => void
-	passwordUpdate: (password: userType['password']) => void
-	setUser: (user: userType['user']) => void
-}
-export const useUserStore = create <userType & actionType> (set => ({
+export const useUserStore = create <userType> (set => ({
 	user: false,
 	email: '',
 	password: '',
@@ -24,19 +14,6 @@ export const useUserStore = create <userType & actionType> (set => ({
 		),
 	setUser: 
 		user => set(
-			// () => ({ user: !user })
 			() => ({ user: user })
 		),
 }))
-// data = [
-// 	{
-// 		'data': {
-// 			'email': '',
-// 			'password': ''
-// 		}
-// 	},
-// 	{}
-// ]
-// axios
-// 	.get('https://65a02bdf7310aa1f8144b77c.mockapi.io/users')
-// 	.then(el => setData(el.data))
